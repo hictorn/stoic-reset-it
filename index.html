@@ -747,33 +747,27 @@ html, body {
         <details class="faq-item"><summary class="faq-q">🔁 Dovrò pagare di nuovo in seguito?</summary><div class="faq-a">No. È un acquisto unico. Una volta acquistato, è tuo.</div></details>
       </div>
     </div>
-
-    <footer class="footer">
+<footer class="footer">
       <div class="wrap">
-        <p>CHIAREZZA STOICA &copy; <span id="yr">2026</span></p>
+        <p>Chiarezza Stoica &copy; <span id="yr">2026</span></p>
        <p style="max-width:560px; margin-left:auto; margin-right:auto;">
   Questo sito non è affiliato né approvato da Facebook, Instagram, Google o altre piattaforme.<br>
   I risultati possono variare.
 </p>
       </div>
     </footer>
-
   </main>
 </div>
-
 <script>
 document.addEventListener('DOMContentLoaded', function () {
   var yearEl = document.getElementById('yr');
   if (yearEl) yearEl.textContent = new Date().getFullYear();
-
   var reveals = document.querySelectorAll('.reveal');
   if (!reveals.length) return;
-
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) {
     reveals.forEach(function (el) { el.classList.add('active'); });
     return;
   }
-
   var observer = new IntersectionObserver(function (entries, obs) {
     entries.forEach(function (entry) {
       if (entry.isIntersecting) {
@@ -782,9 +776,31 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     });
   }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
-
   reveals.forEach(function (el) { observer.observe(el); });
 });
+</script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const urlParams = new URLSearchParams(window.location.search);
+    const utmKeys = ['utm_source', 'utm_campaign', 'utm_medium', 'utm_content', 'utm_term'];
+    const utmParams = {};
+    utmKeys.forEach(key => {
+      const val = urlParams.get(key);
+      if (val) utmParams[key] = val;
+    });
+    if (Object.keys(utmParams).length === 0) return;
+    document.querySelectorAll('a[href*="ipnr.stoicresethub.com"]').forEach(link => {
+      link.addEventListener('click', function (e) {
+        e.preventDefault();
+        const destination = new URL(this.href);
+        Object.entries(utmParams).forEach(([key, val]) => {
+          destination.searchParams.set(key, val);
+        });
+        window.location.href = destination.toString();
+      });
+    });
+  });
 </script>
 </body>
 </html>
